@@ -6,48 +6,52 @@ class ComercioController {
   async NuevoComercio(req , res, next){
     try {
       
-      var sentencia = 'INSERT INTO [dbo].[Comercio]' +
+      var sentencia = 'INSERT INTO [dbo].[Comercio] ' +
                             '([numero]     '    +
                             ',[razonSocial] ' + 
                             ',[denominacion]' +
                             ',[codigoPostal]' +
-                            ',[idProvincia] ' +
-                            ',[telefono]    ' +
-                            ',[direccion]   ' +
-                            ',[email]       ' +
-                            ',[cuit]        ' +
-                            ',[idRubro]     ' +
-                            ',[estado]      ' +
-                            ',[fechaAlta])  ' +
-                        'VALUES             ' +
-                            '(@numero       ' +
-                            ',@razonSocial  ' +
-                            ',@denominacion ' +
-                            ',@codigoPostal ' +
-                            ',@idProvincia  ' +
-                            ',@telefono     ' +
-                            ',@direccion    ' +
-                            ',@email        ' +
-                            ',@cuit         ' +
-                            ',@idRubro      ' +
-                            ',@estado       ' +
-                            ',@fechaAlta)';
+                            ',[idProvincia]' +
+                            ',[telefono]' +
+                            ',[direccion]' +
+                            ',[email]' +
+                            ',[cuit]' +
+                            ',[idRubro]' +
+                            ',[estado]' +
+                            ',[fechaAlta]) ' +
+                        ' VALUES ' +
+                            '(@numero' +
+                            ',@razonSocial' +
+                            ',@denominacion' +
+                            ',@codigoPostal' +
+                            ',@idProvincia' +
+                            ',@telefono' +
+                            ',@direccion' +
+                            ',@email' +
+                            ',@cuit' +
+                            ',@idRubro' +
+                            ',1' +
+                            ',GETDATE())';
+
+        console.log(req.body);
 
        const result = await pool.request()
-      .input('numero',sql.Int , req.body.numero)
-      .input('razonSocial',sql.VarChar , req.body.razonSocial)
-      .input('denominacion',sql.VarChar , req.body.denominacion)
-      .input('codigoPostal',sql.VarChar , req.body.codigoPostal)
-      .input('idProvincia',sql.Int , req.body.idProvincia)
-      .input('telefono',sql.VarChar , req.body.telefono)
-      .input('direccion',sql.VarChar , req.body.direccion)
-      .input('email',sql.VarChar , req.body.email)
-      .input('cuit',sql.VarChar , req.body.cuit)   
-      .input('idRubro',sql.int , req.body.idRubro)   
-      .query(sentencia);    
-
-      return result.recordset;
-
+            .input('numero',sql.Int , req.body.numero)
+            .input('razonSocial',sql.VarChar(250) , req.body.razonSocial)
+            .input('denominacion',sql.VarChar(250) , req.body.denominacion)
+            .input('codigoPostal',sql.Int , req.body.codigoPostal)
+            .input('idProvincia',sql.Int , req.body.idProvincia)
+            .input('telefono',sql.VarChar(50) , req.body.telefono)
+            .input('direccion',sql.VarChar(350) , req.body.direccion)
+            .input('email',sql.VarChar(250), req.body.email)
+            .input('cuit',sql.VarChar(250) , req.body.cuit)   
+            .input('idRubro',sql.Int , req.body.idRubro)   
+            .query(sentencia);    
+        
+      return res.status(200)
+                .send();
+       
+      
     } catch (error) {
       res.status(500)
       res.send(error.message)
@@ -63,7 +67,7 @@ class ComercioController {
       .input('idComercio',sql.VarChar , req.body.idComercio)
       .query('UPDATE Comercio set telefono = @telefono, direccion = @direccion where idComercio = @idComercio ');    
 
-      return result.recordset;
+      return res.status(200);
 
     } catch (error) {
       res.status(500)
@@ -78,8 +82,8 @@ class ComercioController {
         .input('idComercio',sql.VarChar , req.body.idComercio)
         .query('UPDATE Comercio set estado = 0 where idComercio = @idComercio ');    
   
-        return result.recordset;
-  
+        return res.status(200);
+
       } catch (error) {
         res.status(500)
         res.send(error.message)
@@ -92,7 +96,7 @@ class ComercioController {
       const result = await pool.request()
       .query('SELECT * from Comercio where estado = 1');    
 
-      return result.recordset;
+      return res.json(result.recordset);
 
     } catch (error) {
       res.status(500)
@@ -107,7 +111,7 @@ class ComercioController {
       .input('idComercio',sql.VarChar , req.body.idComercio)
       .query('SELECT * from Comercio where idComercio = @idComercio');    
 
-      return result.recordset;
+      return res.json(result.recordset);
 
     } catch (error) {
       res.status(500)
