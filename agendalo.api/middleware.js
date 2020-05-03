@@ -1,4 +1,5 @@
 // middleware.js
+//Intercepta las peticiones para ver si las solicitudes tiene el token
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var config = require('./config');

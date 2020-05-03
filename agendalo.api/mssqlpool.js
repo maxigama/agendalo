@@ -2,8 +2,8 @@ const sql = require('mssql')
 const config = {
     user: 'node_usr',
     password: 'redondos',
-    server: 'local\\SQLEXPRESS', 
-    database: 'SGame_Web',
+    server: 'DESKTOP-G0TVVJJ\\SQLEXPRESS', 
+    database: 'agendalo',
     "port": 1433
   };
  

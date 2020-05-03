@@ -1,12 +1,12 @@
 // auth.js
+//Autenticacion normar de usuario registrado
+
 var express = require('express');
-var service = require('../service');
-const usercontroller = require('./users')
+var service = require('./service');
+const usercontroller = require('./controllers/users')
 
 exports.emailLogin = function(req, res,next) {
-
-    console.log("entro autenticar");
-  
+ 
     usercontroller.getValidUser(req,res,next)
             .then((result)=>{
                     
